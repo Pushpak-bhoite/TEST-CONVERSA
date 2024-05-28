@@ -4,8 +4,6 @@ import user from "../models/user.model.js";
 
 async function getAllCalls(details) {
     try {
-        console.log('details :', details);
-
         // Find call history documents where the members array contains the provided ID
         const calls = await call_history.find({ members: details }).populate("members").populate("caller_id");
 
@@ -23,7 +21,7 @@ async function getAllCalls(details) {
             }
 
             const { group_name, users } = chatDoc;
-            const { caller_id, members, joined_users, startAt } = call;
+            const { caller_id, members, joined_users, startAt , call_type } = call;
 
             let name = '';
             let responseType = '';
@@ -82,7 +80,7 @@ async function getAllCalls(details) {
                 }
             }
 
-            results.push({ type: responseType, value: responseValue, name, group_name, date });
+            results.push({ type: responseType, value: responseValue, name, group_name, date , domain: call_type });
         }
 
         return results;

@@ -8,7 +8,6 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs'
-import { error } from 'console';
 
 const router = express.Router();
 
@@ -91,7 +90,7 @@ router.post("/signup", async (req, res) => {
     })
     //new_user.save().then((result) => { res.send("Registration successful") }).catch((err) => res.send(err.message));
     const reg_user = await new_user.save().catch((err) => res.send(err.message));
-
+    
     // if(reg_user){
     //     res.status(200).json({registration : 'successful'});
     // }
@@ -108,15 +107,7 @@ router.post("/signup", async (req, res) => {
             if (err) throw err
         })
 
-        await user.findByIdAndUpdate(reg_user._id, { profile_img: filename })
-            .then((result1) => {
-                res.status(200).json({ registration: 'successful' });
-            })
-            .catch((err) => {
-                console.log('error at SIGN UP :', error)
-                res.send(err.message)
-            });
-
+        await user.findByIdAndUpdate(reg_user._id, { profile_img: filename }).then((result1) => { res.send("Registration successful") }).catch((err) => res.send(err.message));
     }
     else {
 

@@ -20,7 +20,7 @@ function Chat_Header(props) {
   let [isOnline, setIsOnline] = useState(false)
   // -------------------------------------------------------------
   const navigate = useNavigate();
-  const video_url = `/room/${uuidv4()}`;
+  let video_url = `/room/${uuidv4()}`;
   const Local_U_data = useSelector(state => state.user_data);   //current Logged in user
   const localRing = new Audio(ringging);
   const remoteTune = new Audio(tune);
@@ -31,7 +31,24 @@ function Chat_Header(props) {
 
   const {Font}=useContext(FontFamily);
 
+  // --------------- Auido call   -------------------------------
 
+
+  const make_Audio_call = () => {
+    video_url = `/audio/${uuidv4()}`;
+    navigate(video_url, { state: 'outgoing_video' })
+    localRing.play()
+
+    let details={video_url,ids:{sent_by_user_id,sent_to_user_id}, Local_U_data}
+
+    if (isGroupChat === "") {
+      socket.emit("make_audio_request",details)
+      
+    }else{
+      socket.emit("make_group_audio",details)
+    }
+  }
+// -------------------------------------------------------------------------
   const make_video_call = () => {
     navigate(video_url, { state: 'outgoing_video' })
     localRing.play()
@@ -82,10 +99,10 @@ function Chat_Header(props) {
       this_user_id = props.item._id;
       let profile_img;
       if (props.item.chat_img) {
-        profile_img = "https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/" + props.item._id + "/" + props.item.chat_img
+        profile_img = `http://${process.env.REACT_APP_IPADDRESS}:5000/uploads/` + props.item._id + "/" + props.item.chat_img
       }
       else {
-        profile_img = "https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/avatar.jpg"
+        profile_img = `http://${process.env.REACT_APP_IPADDRESS}:5000/uploads/avatar.jpg`
       }
       return (
         <div className="chat-head" style={{fontFamily:Font}}>
@@ -167,7 +184,7 @@ function Chat_Header(props) {
                            return <li>
                             <div className="row">
                               <div className="col-4">
-                                <img src={"https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/" + item._id + "/" + item.profile_img} height={"50px"} width={"50px"} />
+                                <img src={`http://${process.env.REACT_APP_IPADDRESS}:5000/uploads/` + item._id + "/" + item.profile_img} height={"50px"} width={"50px"} />
                               </div>
                               <div className="col-8 text-center">{item.name}</div>
                             </div>
@@ -181,12 +198,20 @@ function Chat_Header(props) {
               </div>
             </div>
             <div className="chat-header-icons d-flex">
-              <a
+              {/* <a
                 href="javascript:void();"
                 className="chat-icon-phone iq-bg-primary"
               >
                 <i className="ri-phone-line" />
-              </a>
+              </a> */}
+                  <span
+                onClick={make_Audio_call}
+                className="chat-icon-phone iq-bg-primary"
+
+              >
+                 <i className="ri-phone-line" />
+              </span>
+              
               {/* <a
                 href="javascript:void();"
                 className="chat-icon-video iq-bg-primary"
@@ -259,10 +284,10 @@ function Chat_Header(props) {
       this_user_id = props.item._id;
       let profile_img;
       if (props.item.profile_img) {
-        profile_img = "https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/" + props.item._id + "/" + props.item.profile_img
+        profile_img = `http://${process.env.REACT_APP_IPADDRESS}:5000/uploads/` + props.item._id + "/" + props.item.profile_img
       }
       else {
-        profile_img = "https://9w1r6qz3-5000.inc1.devtunnels.ms/uploads/avatar.jpg"
+        profile_img = `http://${process.env.REACT_APP_IPADDRESS}:5000/uploads/avatar.jpg`
       }
       return (
         <div className="chat-head" style={{fontFamily:Font}}>
@@ -355,12 +380,13 @@ function Chat_Header(props) {
               </div>
             </div>
             <div className="chat-header-icons d-flex">
-              <a
-                href="javascript:void();"
+            <span
+                onClick={make_Audio_call}
                 className="chat-icon-phone iq-bg-primary"
+
               >
-                <i className="ri-phone-line" />
-              </a>
+                 <i className="ri-phone-line" />
+              </span>
               {/*------------video Icon-----------  */}
               <span
                 onClick={make_video_call}

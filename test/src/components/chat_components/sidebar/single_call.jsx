@@ -11,7 +11,11 @@ export default function SingleCall(props) {
 
 
   if (props.item) {
-    let result, key , icon;
+    let result, key , icon , domain = props.item.domain;
+    let video_icon = <span><i className="ri-vidicon-line text-success h5" ></i></span>
+    let audio_icon =  <span><i className="ri-phone-fill text-success h5" ></i></span>
+    console.log('props.item.domain ----->) ', props.item.domain);
+    
     if (props.item.group_name === "") {
       logged_in_user = props.user._id;
       // this_user_id = props.item.users[0]._id === props.user._id ? props.item.users[1]?._id : props.item.users[0]?._id;
@@ -49,7 +53,6 @@ export default function SingleCall(props) {
       }
     }
 
-
       let profile_img;
       // if (props.item.users[0]?._id === props.user._id) {
       //   if (props.item.users[1]?.profile_img) {
@@ -85,10 +88,9 @@ export default function SingleCall(props) {
                 {/* <span><i className='ri-arrow-right-up-line text-success'></i> {new Date().getDate() + " / " + new Date().getMonth() + " / 44 " + new Date().getFullYear()}</span> */}
                 <span > {icon} {props.item.date}</span>
               </div>
-              <div className="chat-meta float-right text-center mt-2 d-flex flex-column align-items-center">
+              <div className="chat-meta float-right text-center mt-2 d-flex flex-column align-items-center mr-3">
                 {/* {Math.random() * 2 < 1 ? <span><i className="ri-vidicon-line text-success h5" ></i></span> : */}
-                {true ? <span><i className="ri-vidicon-line text-success h5" ></i></span> :
-                  <span><i className="ri-phone-fill text-success h5" ></i></span>}
+                {domain === "Video" ?<span><i className="ri-vidicon-line text-success h5" ></i></span> : <span><i className="ri-phone-fill text-success h5" ></i></span>}
               </div>
 
             </div>

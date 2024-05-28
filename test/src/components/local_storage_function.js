@@ -12,9 +12,11 @@ function AssignUserData(props) {
     console.log()
 
     async function assign_user_data(){
+        if( localStorage.getItem("user_data" ) !== undefined){
         const user_data= await JSON.parse(localStorage.getItem("user_data"))||null;
         if(user_data!==null){
             dispatch(init_user(user_data))
+        }
         }
     }
     return null; 

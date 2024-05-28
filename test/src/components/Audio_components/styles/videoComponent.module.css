@@ -1,0 +1,71 @@
+.meetVideoContainer {
+    position: relative;
+    height: 100vh;
+    background: rgb(1, 4, 48);
+}
+
+.meetUserVideo {
+    position: absolute;
+    bottom: 6vh;
+    left: 0.8vw;;
+    /* height: 35vh; */
+    width: 40vh;
+    height: auto;
+    border-radius: 3rem;
+}
+
+.buttonContainers {
+    position: absolute;
+    width: 100vw;
+    height: auto;
+    bottom: 0;
+    text-align: center;
+}
+/* ---------------------------------------- */
+.buttonContainers svg {
+    font-size: 2.5rem;
+}
+
+/* Media query for medium screens */
+@media only screen and (max-width: 1024px) {
+    .buttonContainers svg {
+        font-size: 2.3rem;
+    }
+}
+
+/* Media query for small screens */
+@media only screen and (max-width: 768px) {
+    .buttonContainers svg {
+        /* font-size: 2rem; */
+        font-size: 2rem;
+    }
+}
+
+/* Media query for extra small screens */
+@media only screen and (max-width: 480px) {
+    .buttonContainers svg {
+        font-size: 1.5rem;
+    }
+}
+
+/* ---------------------------------------- */
+
+.conferenceView { 
+    display: flex;
+    padding: 50px;
+    /* gap: 10px; */
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 5px;
+    gap: 5px;
+}
+
+.conferenceView  video {
+    /* width: 30vw; */
+    height: 40vh;
+    /* min-width: 30vw; */
+    /* border-radius: 20px; */
+    border-radius: 1rem;
+}
+

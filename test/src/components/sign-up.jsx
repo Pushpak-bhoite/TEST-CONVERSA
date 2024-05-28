@@ -1,10 +1,12 @@
 import React,{useEffect} from 'react';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {Country} from 'country-state-city'
 import axios from 'axios'
 
 
 function SignUpPage() {
+
+    const navigate = useNavigate();
 
     const config = {
         headers: {
@@ -43,8 +45,11 @@ function SignUpPage() {
     }
 
     async function save_data(form_data){
-        const result=await  axios.post('https://9w1r6qz3-5000.inc1.devtunnels.ms/api/auth/signup',{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
-        console.log(result);
+        const result=await  axios.post(`http://${process.env.REACT_APP_IPADDRESS}:5000/api/auth/signup`,{...form_data},{headers: {'Content-Type': 'multipart/form-data','ngrok-skip-browser-warning': 'true'}});
+        if(result){
+            navigate("/sign-in") ;
+        }
+        console.log('result -->)', result);
     }
     return (
         <div>

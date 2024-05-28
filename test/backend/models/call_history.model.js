@@ -27,7 +27,7 @@ const call_history_schema = new Mongoose.Schema({
     }],
     call_type: {
         type: String,
-        enum: ["Voice", "Video"],
+        enum: ["Audio", "Video"],
         required: true
     },
     startAt: {

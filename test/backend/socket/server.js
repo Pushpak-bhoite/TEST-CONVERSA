@@ -11,7 +11,9 @@ import send_message_group from '../utils/sendGroupMessage.js';
 import getSingleMessages from '../utils/getSingleMessage.js';
 import getSingleGroupMessages from '../utils/getSingleGroupMessage.js';
 import video_call from '../utils/videoCall.js';
+import audio_call from '../utils/audioCall.js';
 import group_video from '../utils/groupVideo.js';
+import group_audio from '../utils/groupAudio.js';
 import store_video_joiners from '../utils/storeVideoCallUsers.js';
 import getAllCalls from '../utils/getCalls.js';
 
@@ -128,6 +130,33 @@ io.on('connection', (socket) => {
         })
 
     })
+
+      // *************************************************************************
+
+      socket.on("make_audio_request", (details) => {
+        const socketId = userSocketMap[details.ids.sent_to_user_id];
+        io.to(socketId).emit("video_request_from_server", details.video_url, details.Local_U_data);
+        make_audio(details);
+    })
+    
+    socket.on("make_group_audio", async (details) => {
+        const senderSocketId = userSocketMap[details.Local_U_data._id];
+        
+        // console.log(details.ids.sent_to_user_id);
+        const data = await group_audio(details);
+        data.chat_users.forEach((socketId) => {
+            if (userSocketMap[socketId]) {
+                if(senderSocketId === userSocketMap[socketId]){
+                    return;
+                }
+                // console.log('All ids',userSocketMap[socketId] )
+                io.to(userSocketMap[socketId]).emit("video_request_from_server", details.video_url, details.Local_U_data);
+            }
+        })
+    })
+    
+    // *************************************************************************
+
     socket.on("cut_video_request", (toId) => {
         const socketId = userSocketMap[toId];
         io.to(socketId).emit("cut_video_from_server", socketId);
@@ -225,9 +254,10 @@ async function send_group_message(data, isFile) {
 // ----------------------Video call --------------------
 async function make_video(details) {
     video_call(details);
-    // const new_video = await video_call(video_url,Local_U_data);
-    // const ids = Object.values(data.ids)
-    // io.to(userSocketMap[ids[0]]).to(userSocketMap[ids[1]]).emit("send_save_message", new_message)
+}
+
+async function make_audio(details) {
+    audio_call(details);
 }
 
 

@@ -15,6 +15,8 @@ import ForgetPassword from './components/forget_pass';
 import ResetPassword from './components/reset_pass';
 
 import VideoMeetComponent from './components/video_components/VideoMeet';
+import AudioComponent from './components/Audio_components/VideoMeet';
+
 
 
 
@@ -33,6 +35,7 @@ function App() {
           <Route exact path='/forget-pass' element={<ForgetPassword />} />
           <Route exact path='/reset-pass' element={<ResetPassword />} />
           <Route exact path='/room/:url' element={Object.keys(user).length!=0?<VideoMeetComponent />:<Navigate to="/sign-in" />} />
+          <Route exact path='/audio/:url' element={Object.keys(user).length!=0?<AudioComponent />:<Navigate to="/sign-in" />} />
 
           <Route path='*' element={<SignInPage />} />
         </Routes>
